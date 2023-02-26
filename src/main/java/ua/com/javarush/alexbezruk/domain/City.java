@@ -24,4 +24,8 @@ public class City {
     @ManyToOne
     @JoinColumn(name = "country_id")
     private Country country;
+
+    private String district;
+
+    private Integer population;
 }
