@@ -49,6 +49,25 @@ public class Main {
         List<City> allCities = main.fetchData(main);
         List<CityCountry> preparedData = main.transformData(allCities);
         main.pushToRedis(preparedData);
+
+        // закроеи текущую сессию, чтобы точно делать запрс к БД, а не вытянуть данные из кэша
+        main.sessionFactory.getCurrentSession().close();
+
+        // выбираем случайных 10 id городов
+        // так как мы не делали обработку невалидных ситуаций, используем существующие в БД id
+        List<Integer> ids = List.of(3, 2545, 123, 4, 189, 89, 3458, 1189, 10, 102);
+
+        Long startRedis = System.currentTimeMillis();
+        main.testRedisData(ids);
+        long stopRedis = System.currentTimeMillis();
+
+        Long startMysql = System.currentTimeMillis();
+        main.testMysqlData(ids);
+        long stopMysql = System.currentTimeMillis();
+
+        System.out.printf("%s:\t%d ms\n", "Redis", (stopRedis - startRedis));
+        System.out.printf("%s:\t%d ms\n", "Mysql", (stopMysql - startMysql));
+
         main.shutdown();
     }
 
