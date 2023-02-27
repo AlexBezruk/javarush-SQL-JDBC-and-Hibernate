@@ -90,6 +90,20 @@ public class Main {
         }
     }
 
+    private void testRedisData(List<Integer> ids) {
+        try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
+            RedisStringCommands<String, String> sync = connection.sync();
+            for (Integer id : ids) {
+                String value = sync.get(String.valueOf(id));
+                try {
+                    mapper.readValue(value, CityCountry.class);
+                } catch (JsonProcessingException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void pushToRedis(List<CityCountry> data) {
         try (StatefulRedisConnection<String, String> connection = redisClient.connect()) {
             RedisStringCommands<String, String> sync = connection.sync();
