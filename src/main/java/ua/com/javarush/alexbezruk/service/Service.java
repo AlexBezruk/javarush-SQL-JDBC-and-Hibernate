@@ -59,9 +59,8 @@ public class Service {
     public List<CityCountry> transformData(List<City> cities) {
         return cities.stream().map(city -> {
             CityCountryMapper cityCountryMapper = CityCountryMapper.INSTANCE;
-            CityCountry cityCountry = cityCountryMapper.toCityCountry(city);
 
-            return cityCountry;
+            return cityCountryMapper.toCityCountry(city);
         }).collect(Collectors.toList());
     }
 

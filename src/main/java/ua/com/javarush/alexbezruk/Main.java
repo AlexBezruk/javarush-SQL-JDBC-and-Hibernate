@@ -14,7 +14,7 @@ public class Main {
 
         service.getSessionFactory().getCurrentSession().close();
 
-        service.dataReadingSpeedTest(10);
+        service.dataReadingSpeedTest(1000);
 
         service.shutdown();
     }
